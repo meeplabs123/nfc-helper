@@ -9,23 +9,14 @@
         .center {
             position: absolute;
             left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border: 5px solid #AAA;
+            transform: translate(-50%, 50%);
             padding: 1rem;
         }
-        .parent {
-            height: 16rem;
-            width: 32rem;
-            position: relative;
-        }
-        .child {
-            width: 30rem;
-            height: 14rem;
+        .center-2 {
             position: absolute;
-            top: 50%;
-            left: 20%;
-            margin: -35px 0 0 -35px;
+            left: 50%;
+            top: 5%;
+            transform: translate(-50%, -50%);
         }
         #grey {
             color: grey;
@@ -46,24 +37,91 @@
         }
 
         @keyframes spin {
-            0%   {transform: rotate(-0deg);}
-            50%  {transform: rotate(-360deg); font-size: 0.5rem;}
-            100% {transform: rotate(-360deg); font-size: 5rem;}
+            0%   {transform: rotate(-0deg); }
+            50%  {transform: rotate(-360deg); }
+            100% {transform: rotate(-360deg); }
         }
     </style>
     <script>
-        window.onload = () => {
+        function setState(state_int) {
+            switch(state_int) {
+                case 0: 
+                    setColour('grey')
+                    setText('Ready')
+                    try {
+                        document.getElementById('tick').id = 'no-animate';
+                    } catch {}
+                break;
+                case 1: 
+                    setColour('red')
+                    setText('Error')
+                    try {
+                        document.getElementById('tick').id = 'no-animate';
+                    } catch {}
+                break;
+                case 2: 
+                    setColour('orange')
+                    setText('Working')
+                    try {
+                        document.getElementById('no-animate').id = 'tick';
+                    } catch {}
+                break;
+                case 3: 
+                    setColour('green')
+                    setText('Done')
+                    try {
+                        document.getElementById('tick').id = 'no-animate';
+                    } catch {}
+                break;
+            }
+        }
+        function setColour(colour) {
             Object.values(document.getElementsByClassName('colour')).forEach((item, index) => {
-                item.id = "orange"
+                item.id = colour;
             })
+        }
+        function setText(text) {
+            document.getElementById('text').innerText = text;
+        }
+
+        window.onload = () => {
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+
+            
+            setState(2)
+            if(params.action) {
+                var action = params.action;
+
+                try {
+                    action = atob(action)
+                    action = JSON.parse(action)
+                    if(parseAction(action)) {
+                        setState(3)
+                    } else {
+                        setState(1)
+                    }
+                } catch {
+                    setState(1)
+                    return;
+                }
+                return;
+            } else {
+                setState(1)
+                return;
+            }
         }
     </script>
 </head>
 <body>
     <div class="center">
         <div class="parent">
-            <h1 class="child"><div class="colour" id="orange"><i style="font-size: 5rem" class="fa fa-check-circle-o" id="tick" aria-hidden="true"></i><span style="font-size: 5rem;">Loading...</span></div></h1>
+            <h1 class="child"><div class="colour"><i style="font-size: 25rem" class="fa fa-check-circle-o" id="no-animate" aria-hidden="true"></i></div></h1>
         </div>
     </div>
+    <footer>
+        <span class="center-2" style="font-size: 5rem;" id="text"></span>
+    </footer>
 </body>
 </html>
