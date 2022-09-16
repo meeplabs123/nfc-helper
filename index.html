@@ -1,9 +1,69 @@
 <html>
 <head>
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+        html {
+            background-color: #222;
+            color: #777;
+        }
+        .center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #AAA;
+            padding: 1rem;
+        }
+        .parent {
+            height: 16rem;
+            width: 32rem;
+            position: relative;
+        }
+        .child {
+            width: 30rem;
+            height: 14rem;
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            margin: -35px 0 0 -35px;
+        }
+        #grey {
+            color: grey;
+        }
+        #red {
+            color: red;
+        }
+        #orange {
+            color: orange;
+        }
+        #green {
+            color: greenyellow;
+        }
+        #tick {
+            animation-name: spin;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes spin {
+            0%   {transform: rotate(-0deg);}
+            50%  {transform: rotate(-360deg); font-size: 0.5rem;}
+            100% {transform: rotate(-360deg); font-size: 5rem;}
+        }
+    </style>
+    <script>
+        window.onload = () => {
+            Object.values(document.getElementsByClassName('colour')).forEach((item, index) => {
+                item.id = "orange"
+            })
+        }
+    </script>
 </head>
 <body>
-    <i style="font-size: 40rem" class="fa fa-check-circle-o" aria-hidden="true"></i>
-    <h1>Actions Completed!</h1>
+    <div class="center">
+        <div class="parent">
+            <h1 class="child"><div class="colour" id="orange"><i style="font-size: 5rem" class="fa fa-check-circle-o" id="tick" aria-hidden="true"></i><span style="font-size: 5rem;">Loading...</span></div></h1>
+        </div>
+    </div>
 </body>
 </html>
