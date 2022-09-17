@@ -117,6 +117,27 @@
                 return;
             }
         }
+
+        function parseAction(action) {
+            console.log(action)
+
+            var error = false;
+            Object.keys(action).forEach((item, index) => {
+                switch(item) {
+                    case 'js': 
+                        eval(action.js)
+                    break;
+                    default:
+                        console.log('Unrecognised Identifier "' + item + '"!')
+                        error = true;
+                    break;
+                }
+
+                if(error) {
+                    return false;
+                }
+            })
+        }
     </script>
 </head>
 <body>
