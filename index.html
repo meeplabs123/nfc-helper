@@ -140,19 +140,26 @@
             
             Object.keys(action)
                 .forEach((item, index) => {
-                    console.log(item)
                     switch (item) {
-                    case 'js':
-                        eval(action.js)
-                        
-                        return true;
+                        case 'js':
+                            eval(action.js)
                         break;
-                    default:
-                        console.log('Unrecognised Identifier "' + item + '"!')
+                        case 'preset':
+                            switch (action.preset) {
+                                case 'rick':
+                                    document.getElementById("content").innerHTML = '<audio controls="" autoplay=""><source src="/assets/dQw4w9WgXcQ.mp3" type="audio/mpeg"></audio><image src="https://i.kym-cdn.com/photos/images/newsfeed/000/041/494/1241026091_youve_been_rickrolled.gif">'
+                                break;
+                                default:
+                                    console.log('Unrecognised Preset "' + action.preset + '"!')
+                                break;
+                            }
+                        break;
+                        default:
+                            console.log('Unrecognised Identifier "' + item + '"!')
                         break;
                     }
                 })
-            
+            return true;
         }
 
         window.onload = () => {
@@ -165,6 +172,7 @@
         <div class="parent">
             <h1 class="child"><div class="colour"><i style="font-size: 25rem" class="fa fa-check-circle-o" id="no-animate" aria-hidden="true"></i></div></h1>
         </div>
+        <div class="center" id="content"></div>
     </div>
     <footer>
         <span class="center-2" style="font-size: 5rem;" id="text"></span>
