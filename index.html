@@ -48,71 +48,88 @@
         }
     </style>
     <script>
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
         function setState(state_int) {
-            switch(state_int) {
-                case 0: 
-                    setColour('grey')
-                    setText('Ready')
-                    try {
-                        document.getElementById('tick').id = 'no-animate';
-                    } catch {}
+            switch (state_int) {
+            case 0:
+                setColour('grey')
+                setText('Ready')
+                try {
+                    document.getElementById('tick')
+                        .id = 'no-animate';
+                }
+                catch {}
                 break;
-                case 1: 
-                    setColour('red')
-                    setText('Error')
-                    try {
-                        document.getElementById('tick').id = 'no-animate';
-                    } catch {}
+            case 1:
+                setColour('red')
+                setText('Error')
+                try {
+                    document.getElementById('tick')
+                        .id = 'no-animate';
+                }
+                catch {}
                 break;
-                case 2: 
-                    setColour('orange')
-                    setText('Working')
-                    try {
-                        document.getElementById('no-animate').id = 'tick';
-                    } catch {}
+            case 2:
+                setColour('orange')
+                setText('Working')
+                try {
+                    document.getElementById('no-animate')
+                        .id = 'tick';
+                }
+                catch {}
                 break;
-                case 3: 
-                    setColour('green')
-                    setText('Done')
-                    try {
-                        document.getElementById('tick').id = 'no-animate';
-                    } catch {}
+            case 3:
+                setColour('green')
+                setText('Done')
+                try {
+                    document.getElementById('tick')
+                        .id = 'no-animate';
+                }
+                catch {}
                 break;
             }
         }
+
         function setColour(colour) {
-            Object.values(document.getElementsByClassName('colour')).forEach((item, index) => {
-                item.id = colour;
-            })
+            Object.values(document.getElementsByClassName('colour'))
+                .forEach((item, index) => {
+                    item.id = colour;
+                })
         }
+
         function setText(text) {
-            document.getElementById('text').innerText = text;
+            document.getElementById('text')
+                .innerText = text;
         }
 
-        window.onload = () => {
+        function doWork() {
             const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop),
-            });
-
+                get: (searchParams, prop) => searchParams.get(prop)
+            , });
+            
             
             setState(2)
-            if(params.action) {
+            if (params.action) {
                 var action = params.action;
-
+                
                 try {
                     action = atob(action)
                     action = JSON.parse(action)
-                    if(parseAction(action)) {
+                    if (parseAction(action)) {
                         setState(3)
-                    } else {
+                    }
+                    else {
                         setState(1)
                     }
-                } catch {
+                }
+                catch {
                     setState(1)
                     return;
                 }
                 return;
-            } else {
+            }
+            else {
                 setState(1)
                 return;
             }
@@ -120,25 +137,26 @@
 
         function parseAction(action) {
             console.log(action)
-
-            var error = false;
-            Object.keys(action).forEach((item, index) => {
-                switch(item) {
-                    case 'js': 
+            
+            Object.keys(action)
+                .forEach((item, index) => {
+                    console.log(item)
+                    switch (item) {
+                    case 'js':
                         eval(action.js)
-                    break;
+                        
+                        return true;
+                        break;
                     default:
                         console.log('Unrecognised Identifier "' + item + '"!')
-                        error = true;
-                    break;
-                }
+                        break;
+                    }
+                })
+            
+        }
 
-                if(error) {
-                    return false;
-                } else {
-                    return true;
-                }
-            })
+        window.onload = () => {
+            doWork()
         }
     </script>
 </head>
