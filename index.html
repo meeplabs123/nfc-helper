@@ -20,6 +20,12 @@
             top: 5%;
             transform: translate(-50%, -50%);
         }
+        .bottom {
+            position: absolute;
+            left: 50%;
+            bottom: 5%;
+            transform: translate(-50%, -50%);
+        }
         #grey {
             color: grey;
         }
@@ -33,12 +39,17 @@
             color: greenyellow;
         }
         #tick {
+            z-index: 1000;
             animation-name: spin;
             animation-duration: 3s;
             animation-iteration-count: infinite;
         }
         #text {
+            z-index: 1000;
             font-family: monospace;
+        }
+        footer {
+            z-index: 500;
         }
 
         @keyframes spin {
@@ -144,10 +155,16 @@
                         case 'js':
                             eval(action.js)
                         break;
+                        case 'redirect':
+                            window.location = action.redirect
+                        break;
                         case 'preset':
                             switch (action.preset) {
                                 case 'rick':
-                                    document.getElementById("content").innerHTML = '<image src="https://i.kym-cdn.com/photos/images/newsfeed/000/041/494/1241026091_youve_been_rickrolled.gif">'
+                                    document.getElementById("content").innerHTML = '<span class="bottom"><image src="https://i.kym-cdn.com/photos/images/newsfeed/000/041/494/1241026091_youve_been_rickrolled.gif"></span>'
+                                break;
+                                case 'hack':
+                                    document.getElementById("content").innerHTML = '<span class="bottom"><p style="font-size: 2rem">ugothackedlongtextgoeshereyesitsverylongtextiknow</p></span>'
                                 break;
                                 default:
                                     console.log('Unrecognised Preset "' + action.preset + '"!')
@@ -172,10 +189,10 @@
         <div class="parent">
             <h1 class="child"><div class="colour"><i style="font-size: 25rem" class="fa fa-check-circle-o" id="no-animate" aria-hidden="true"></i></div></h1>
         </div>
-        <div class="center" id="content"></div>
     </div>
     <footer>
         <span class="center-2" style="font-size: 5rem;" id="text"></span>
+        <div id="content"></div>
     </footer>
 </body>
 </html>
